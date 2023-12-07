@@ -1,0 +1,32 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "آزمایشگاه R"
+  author: "امین روشنی"
+  date: "آبان 1402"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+    - references.qmd
+  site-url: https://a-roshani.ir 
+  search: true
+  downloads: [pdf, epub]
+  sharing: [twitter, facebook]
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+mainfont: Vazirmatn
+language: FA_values.yml
+dir: rtl
+
+editor: visual
+
