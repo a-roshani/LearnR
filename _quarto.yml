@@ -24,8 +24,8 @@ format:
     theme: 
       - cosmo
       - source.scss
-  pdf:
-    documentclass: scrreprt
+  #pdf:
+  #  documentclass: scrreprt
 
 filters:
   - webr
