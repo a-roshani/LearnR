@@ -3,9 +3,9 @@ project:
   output-dir: docs
 
 book:
-  title: "آزمایشگاه R"
+  title: "محاسبات آماری با R"
   author: "امین روشنی"
-  date: "آبان 1402"
+  date: "2023-12-10"
   chapters:
     - index.qmd
     - intro.qmd
@@ -24,6 +24,8 @@ format:
   pdf:
     documentclass: scrreprt
 
+filters:
+- webr
 mainfont: Vazirmatn
 language: FA_values.yml
 dir: rtl
