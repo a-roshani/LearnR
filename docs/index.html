@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" dir="rtl"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.236">
+<meta name="generator" content="quarto-1.4.523">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -48,12 +82,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
     "s"
   ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -62,317 +97,15 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "لغو",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs/editor/editor.main.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<style>
-  .monaco-editor pre {
-    background-color: unset !important;
-  }
 
-  .qwebr-icon-status-spinner {
-    color: #7894c4;
-  }
-
-  .qwebr-icon-run-code {
-    color: #0d9c29
-  }
-
-  .qwebr-output-code-stdout {
-    color: #111;
-  }
-
-  .qwebr-output-code-stderr {
-    color: #db4133;
-  }
-
-  .qwebr-editor {
-    border: 1px solid #EEEEEE;
-  }
-
-  .qwebr-button-run {
-    background-color: #EEEEEE;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0; /* Extra styling for consistency */
-    display: inline-block;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #000;
-    text-align: center;
-    text-decoration: none;
-    -webkit-text-decoration: none;
-    -moz-text-decoration: none;
-    -ms-text-decoration: none;
-    -o-text-decoration: none;
-    /* vertical-align: middle; */ /* Prevents a space from appearing between the code cell and button */
-    -webkit-user-select: none;
-    border-color: #dee2e6;
-    border: 1px solid rgba(0,0,0,0);
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    border-top-right-radius: 0.25rem;
-    border-top-left-radius: 0.25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  }
-
-  .qwebr-button-run:hover {
-    color: #000;
-    background-color: #e3e6ea;
-    border-color: #e1e5e9;
-  }
-
-  .qwebr-button-run:disabled,.qwebr-button-run.disabled,fieldset:disabled .qwebr-button-run {
-    pointer-events: none;
-    opacity: .65
-  }
-
-  /* Custom styling for RevealJS Presentations*/
-
-  /* Reset the style of the interactive area */
-  .reveal div.qwebr-interactive-area {
-    display: block;
-    box-shadow: none;
-    max-width: 100%;
-    max-height: 100%;
-    margin: 0;
-    padding: 0;
-  } 
-
-  /* Provide space to entries */
-  .reveal div.qwebr-output-code-area pre div {
-    margin: 1px 2px 1px 10px;
-  }
-
-  /* Collapse the inside code tags to avoid extra space between line outputs */
-  .reveal pre div code.qwebr-output-code-stdout, .reveal pre div code.qwebr-output-code-stderr {
-    padding: 0;
-    display: contents;
-  }
-
-  .reveal pre div code.qwebr-output-code-stdout {
-    color: #111;
-  }
-
-  .reveal pre div code.qwebr-output-code-stderr {
-    color: #db4133;
-  }
-
-
-  /* Create a border around console and output (does not effect graphs) */
-  .reveal div.qwebr-console-area {
-    border: 1px solid #EEEEEE;
-    box-shadow: 2px 2px 10px #EEEEEE;
-  }
-
-  /* Cap output height and allow text to scroll */
-  /* TODO: Is there a better way to fit contents/max it parallel to the monaco editor size? */
-  .reveal div.qwebr-output-code-area pre {
-    max-height: 400px;
-    overflow: scroll;
-  }
-</style>
-
-<script type="module">
-
-  // Start a timer
-  const initializeWebRTimerStart = performance.now();
-
-  // Determine if we need to install R packages
-  var installRPackagesList = [''];
-  // Check to see if we have an empty array, if we do set to skip the installation.
-  var setupRPackages = !(installRPackagesList.indexOf("") !== -1);
-  var autoloadRPackages = true;
-
-  // Display a startup message?
-  var showStartupMessage = true;
-  var showHeaderMessage = false;
-  if (showStartupMessage) {
-
-    // Get references to header elements
-    const headerHTML = document.getElementById("title-block-header");
-    const headerRevealJS = document.getElementById("title-slide");
-
-    // Create the outermost div element for metadata
-    const quartoTitleMeta = document.createElement("div");
-    quartoTitleMeta.classList.add("quarto-title-meta");
-
-    // Create the first inner div element
-    const firstInnerDiv = document.createElement("div");
-    firstInnerDiv.setAttribute("id", "qwebr-status-message-area");
-
-    // Create the second inner div element for "WebR Status" heading and contents
-    const secondInnerDiv = document.createElement("div");
-    secondInnerDiv.setAttribute("id", "qwebr-status-message-title");
-    secondInnerDiv.classList.add("quarto-title-meta-heading");
-    secondInnerDiv.innerText = "WebR Status";
-
-    // Create another inner div for contents
-    const secondInnerDivContents = document.createElement("div");
-    secondInnerDivContents.setAttribute("id", "qwebr-status-message-body");
-    secondInnerDivContents.classList.add("quarto-title-meta-contents");
-
-    // Describe the WebR state
-    var startupMessageWebR = document.createElement("p");
-    startupMessageWebR.innerText = "🟡 Loading...";
-    startupMessageWebR.setAttribute("id", "qwebr-status-message-text");
-    // Add `aria-live` to auto-announce the startup status to screen readers
-    startupMessageWebR.setAttribute("aria-live", "assertive");
-
-    // Append the startup message to the contents
-    secondInnerDivContents.appendChild(startupMessageWebR);
-
-    // Add a status indicator for COOP and COEP Headers if needed
-    if (showHeaderMessage) {
-      const crossOriginMessage = document.createElement("p");
-      crossOriginMessage.innerText = `${crossOriginIsolated ? '🟢' : '🟡'} COOP & COEP Headers`;
-      crossOriginMessage.setAttribute("id", "qwebr-coop-coep-header");
-      secondInnerDivContents.appendChild(crossOriginMessage);
-    }
-
-    // Combine the inner divs and contents
-    firstInnerDiv.appendChild(secondInnerDiv);
-    firstInnerDiv.appendChild(secondInnerDivContents);
-    quartoTitleMeta.appendChild(firstInnerDiv);
-
-    // Determine where to insert the quartoTitleMeta element
-    if (headerHTML) {
-      // Append to the existing "title-block-header" element
-      headerHTML.appendChild(quartoTitleMeta);
-    } else if (headerRevealJS) {
-      // If using RevealJS, add to the "title-slide" div
-      headerRevealJS.appendChild(firstInnerDiv);
-    } else {
-      // If neither headerHTML nor headerRevealJS is found, insert after "webr-monaco-editor-init" script
-      const monacoScript = document.getElementById("qwebr-monaco-editor-init");
-      const header = document.createElement("header");
-      header.setAttribute("id", "title-block-header");
-      header.appendChild(quartoTitleMeta);
-      monacoScript.after(header);
-    }
-  }
-
-  // Retrieve the webr.mjs
-  import { WebR, ChannelType } from "https://webr.r-wasm.org/v0.2.2/webr.mjs";
-
-  // Populate WebR options with defaults or new values based on 
-  // webr meta
-  globalThis.webR = new WebR({
-    "baseURL": "https://webr.r-wasm.org/v0.2.2/",
-    "serviceWorkerUrl": "",
-    "homedir": "/home/web_user", 
-    "channelType": ChannelType.Automatic
-  });
-
-  // Initialization WebR
-  await globalThis.webR.init();
-
-  // Setup a shelter
-  globalThis.webRCodeShelter = await new globalThis.webR.Shelter();
-
-  // Setup a pager to allow processing help documentation 
-  await globalThis.webR.evalRVoid('webr::pager_install()'); 
-
-  // Function to set the button text
-  function qwebrSetInteractiveButtonState(buttonText, enableCodeButton = true) {
-    document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
-      btn.innerHTML = buttonText;
-      btn.disabled = !enableCodeButton;
-    });
-  }
-
-  // Function to update the status message
-  function qwebrUpdateStatusHeader(message) {
-    startupMessageWebR.innerHTML = `
-      <i class="fa-solid fa-spinner fa-spin qwebr-icon-status-spinner"></i>
-      <span>${message}</span>`;
-  }
-
-  // Function to install a single package
-  async function qwebrInstallRPackage(packageName) {
-    await globalThis.webR.installPackages([packageName]);
-  }
-
-  // Function to load a single package
-  async function qwebrLoadRPackage(packageName) {
-    await globalThis.webR.evalRVoid(`library(${packageName});`);
-  }
-
-  // Generic function to process R packages
-  async function qwebrProcessRPackagesWithStatus(packages, processType, displayStatusMessageUpdate = true) {
-    // Switch between contexts
-    const messagePrefix = processType === 'install' ? 'Installing' : 'Loading';
-
-    // Modify button state
-    qwebrSetInteractiveButtonState(`🟡 ${messagePrefix} package ...`, false);
-
-    // Iterate over packages
-    for (let i = 0; i < packages.length; i++) {
-      const activePackage = packages[i];
-      const formattedMessage = `${messagePrefix} package ${i + 1} out of ${packages.length}: ${activePackage}`;
-      
-      // Display the update
-      if (displayStatusMessageUpdate) {
-        qwebrUpdateStatusHeader(formattedMessage);
-      }
-
-      // Run package installation
-      if (processType === 'install') {
-        await qwebrInstallRPackage(activePackage);
-      } else {
-        await qwebrLoadRPackage(activePackage);
-      }
-    }
-
-    // Clean slate
-    if (processType === 'load') {
-      await globalThis.webR.flush();
-    }
-  }
-
-
-  // Check to see if any packages need to be installed
-  if (setupRPackages) {
-    // Obtain only a unique list of packages
-    const uniqueRPackageList = Array.from(new Set(installRPackagesList));
-
-    // Install R packages one at a time (either silently or with a status update)
-    await qwebrProcessRPackagesWithStatus(uniqueRPackageList, 'install', showStartupMessage);
-
-    if(autoloadRPackages) {
-      // Load R packages one at a time (either silently or with a status update)
-      await qwebrProcessRPackagesWithStatus(uniqueRPackageList, 'load', showStartupMessage);
-    }
-  }
-
-  // Stop timer
-  const initializeWebRTimerEnd = performance.now();
-
-  // Release document status as ready
-  if (showStartupMessage) {
-    startupMessageWebR.innerText = "🟢 Ready!"
-  }
-  
-  qwebrSetInteractiveButtonState(
-    `<i class="fa-solid fa-play qwebr-icon-run-code"></i> <span>Run Code</span>`, 
-    true
-  );
-
-  // Global version of the Escape HTML function that converts HTML 
-  // characters to their HTML entities.
-  globalThis.qwebrEscapeHTMLCharacters = function(unsafe) {
-    return unsafe
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  };
-</script>
-
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -382,11 +115,11 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">پیشگفتار</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -395,48 +128,12 @@ ul.task-list li input[type="checkbox"] {
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">محاسبات آماری با R</a> 
-        <div class="sidebar-tools-main">
-    <div class="dropdown">
-      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
-      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./محاسبات-آماری-با-R.pdf">
-              <i class="bi bi-bi-file-pdf pe-1"></i>
-            Download PDF
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./محاسبات-آماری-با-R.epub">
-              <i class="bi bi-bi-journal pe-1"></i>
-            Download ePub
-            </a>
-          </li>
-      </ul>
-    </div>
-    <div class="dropdown">
-      <a href="" title="Share" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
-      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
-              <i class="bi bi-bi-twitter pe-1"></i>
-            Twitter
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
-              <i class="bi bi-bi-facebook pe-1"></i>
-            Facebook
-            </a>
-          </li>
-      </ul>
-    </div>
-</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -454,14 +151,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">مقدمه</span></span></a>
+  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">مقدمه</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">خلاصه</span></span></a>
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">خلاصه</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -473,29 +168,34 @@ ul.task-list li input[type="checkbox"] {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">فهرست مطالب</h2>
    
   <ul>
-  <li><a href="#پیشگفتار" id="toc-پیشگفتار" class="nav-link active" data-scroll-target="#پیشگفتار">پیشگفتار</a></li>
+  <li><a href="#احتمال-و-متغیرهای-تصادفی" id="toc-احتمال-و-متغیرهای-تصادفی" class="nav-link active" data-scroll-target="#احتمال-و-متغیرهای-تصادفی">احتمال و متغیرهای تصادفی</a>
+  <ul class="collapse">
+  <li><a href="#احتمال" id="toc-احتمال" class="nav-link" data-scroll-target="#احتمال">احتمال</a>
+  <ul class="collapse">
+  <li><a href="#آشنایی-با-توابع-any-وall" id="toc-آشنایی-با-توابع-any-وall" class="nav-link" data-scroll-target="#آشنایی-با-توابع-any-وall">آشنایی با توابع <code>any</code> و<code>all</code></a></li>
+  </ul></li>
+  <li><a href="#احتمال-شرطی" id="toc-احتمال-شرطی" class="nav-link" data-scroll-target="#احتمال-شرطی">احتمال شرطی</a></li>
+  <li><a href="#تمرینها" id="toc-تمرینها" class="nav-link" data-scroll-target="#تمرینها">تمرین‌ها</a></li>
+  <li><a href="#توزیعهای-احتمال" id="toc-توزیعهای-احتمال" class="nav-link" data-scroll-target="#توزیعهای-احتمال">توزیع‌های احتمال</a></li>
+  <li><a href="#نامساوی-ها" id="toc-نامساوی-ها" class="nav-link" data-scroll-target="#نامساوی-ها">نامساوی ها</a>
+  <ul class="collapse">
+  <li><a href="#نامساوی-مارکوف" id="toc-نامساوی-مارکوف" class="nav-link" data-scroll-target="#نامساوی-مارکوف">نامساوی مارکوف</a></li>
+  <li><a href="#نامساوی-چبیشف" id="toc-نامساوی-چبیشف" class="nav-link" data-scroll-target="#نامساوی-چبیشف">نامساوی چبیشف</a></li>
+  <li><a href="#تمرین" id="toc-تمرین" class="nav-link" data-scroll-target="#تمرین">تمرین</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs/loader.js"></script>
-<script type="module" id="qwebr-monaco-editor-init">
-
-  // Configure the Monaco Editor's loader
-  require.config({
-    paths: {
-      'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs'
-    }
-  });
-</script>
+<main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -504,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-body">
 
     <div>
     <div class="quarto-title-meta-heading">نویسنده</div>
@@ -527,289 +227,474 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="پیشگفتار" class="level1 unnumbered">
-<h1 class="unnumbered">پیشگفتار</h1>
-<p>هدف این کتاب آموزش زبان برنامه‌نویسی <code>R</code> است.</p>
-<div id="qwebr-interactive-area-1" class="qwebr-interactive-area">
-  <button class="btn btn-default qwebr-button-run" disabled="" type="button" id="qwebr-button-run-1">🟡 Loading
-    webR...</button>
-  <div id="qwebr-console-area-1" class="qwebr-console-area">
-    <div id="qwebr-editor-1" class="qwebr-editor"></div>
-    <div id="qwebr-output-code-area-1" class="qwebr-output-code-area" aria-live="assertive">
-      <pre style="visibility: hidden"></pre>
-    </div>
-  </div>
-  <div id="qwebr-output-graph-area-1" class="qwebr-output-graph-area">
-  </div>
+
+<section id="احتمال-و-متغیرهای-تصادفی" class="level1">
+<h1>احتمال و متغیرهای تصادفی</h1>
+<section id="احتمال" class="level2">
+<h2 class="anchored" data-anchor-id="احتمال">احتمال</h2>
+<p><strong>مثال 1:</strong> احتمال اینکه در یک خانواده چهارفرزندی، فرزند اول و آخر پسر باشند را محاسبه کنید.</p>
+<hr>
+<p><strong>حل:</strong> برای حل این مثال می‌توان به دو روش عمل کرد. در <strong>روش اول</strong> مقدار دقیق این احتمال را محاسبه می‌کنیم. برای این کار ابتدا فضای نمونه و پیشامد مطلوب را به ترتیب با توابع <code>expand.grid()</code> و <code>subset</code> را مشخص می‌کنیم.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>childs <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"b"</span>,<span class="st">"g"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Sample_space <span class="ot">=</span> <span class="fu">expand.grid</span>(<span class="at">child_1 =</span> childs, <span class="at">child_2 =</span> childs,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">child_3 =</span> childs, <span class="at">child_4 =</span> childs)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Sample_space</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   child_1 child_2 child_3 child_4
+1        b       b       b       b
+2        g       b       b       b
+3        b       g       b       b
+4        g       g       b       b
+5        b       b       g       b
+6        g       b       g       b
+7        b       g       g       b
+8        g       g       g       b
+9        b       b       b       g
+10       g       b       b       g
+11       b       g       b       g
+12       g       g       b       g
+13       b       b       g       g
+14       g       b       g       g
+15       b       g       g       g
+16       g       g       g       g</code></pre>
 </div>
-<script type="module">
-  // Retrieve webR code cell information
-  const runButton = document.getElementById("qwebr-button-run-1");
-  const outputCodeDiv = document.getElementById("qwebr-output-code-area-1");
-  const editorDiv = document.getElementById("qwebr-editor-1");
-  const outputGraphDiv = document.getElementById("qwebr-output-graph-area-1");
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>event <span class="ot">=</span> <span class="fu">subset</span>(Sample_space, child_1 <span class="sc">==</span> <span class="st">"b"</span> <span class="sc">&amp;</span> child_4 <span class="sc">==</span> <span class="st">"b"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>event</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  child_1 child_2 child_3 child_4
+1       b       b       b       b
+3       b       g       b       b
+5       b       b       g       b
+7       b       g       g       b</code></pre>
+</div>
+</div>
+<p>حال با تقسیم تعداد عناصر پیشامد مطلوب بر تعداد کل فضای نمونه، مقدار احتمال بدست می‌آید.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(event) <span class="sc">/</span> <span class="fu">nrow</span>(Sample_space)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.25</code></pre>
+</div>
+</div>
+<p>با استفاده از <strong>راه حل دوم</strong>، مقدار این احتمال را با استفاده از شبیه‌سازی و مفهوم فراوانی نسبی بدست می‌آوریم.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n,{</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"b"</span>,<span class="st">"g"</span>), <span class="dv">4</span> , <span class="at">replace =</span> T)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  (x[<span class="dv">1</span>] <span class="sc">==</span> <span class="st">"b"</span>) <span class="sc">&amp;</span> (x[<span class="dv">4</span>] <span class="sc">==</span> <span class="st">"b"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.24895</code></pre>
+</div>
+</div>
+<hr>
+<p><strong>مثال 2:</strong> احتمال آنکه در پرتاب سه تاس، مجموع اعداد سه تاس بزرگتر از 15 باشد را بیابید.</p>
+<p><strong>حل:</strong> مانند مثال قبل می‌توان از دو راه مقدار احتمال را محاسبه کرد.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution 1</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Sample_space <span class="ot">=</span> <span class="fu">expand.grid</span>(<span class="at">dice_1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">dice_2 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">dice_3 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sample_space,<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   dice_1 dice_2 dice_3
+1       1      1      1
+2       2      1      1
+3       3      1      1
+4       4      1      1
+5       5      1      1
+6       6      1      1
+7       1      2      1
+8       2      2      1
+9       3      2      1
+10      4      2      1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>event <span class="ot">=</span> <span class="fu">subset</span>(Sample_space, (dice_1 <span class="sc">+</span> dice_2 <span class="sc">+</span> dice_3) <span class="sc">&gt;</span> <span class="dv">15</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>event</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    dice_1 dice_2 dice_3
+144      6      6      4
+174      6      5      5
+179      5      6      5
+180      6      6      5
+204      6      4      6
+209      5      5      6
+210      6      5      6
+214      4      6      6
+215      5      6      6
+216      6      6      6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(event) <span class="sc">/</span> <span class="fu">nrow</span>(Sample_space)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0462963</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution 2</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n,{</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">3</span> , <span class="at">replace =</span> T)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(x) <span class="sc">&gt;</span> <span class="dv">15</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04602</code></pre>
+</div>
+</div>
+<hr>
+<p><strong>تمرین کلاسی:</strong> در آزمایش پرتاب سه تاس سالم، احتمال آنکه مجموع مقدار دو تاس اول و سوم کمتر از تاس دوم باشد را بیابید.</p>
+<hr>
+<section id="آشنایی-با-توابع-any-وall" class="level3">
+<h3 class="anchored" data-anchor-id="آشنایی-با-توابع-any-وall">آشنایی با توابع <code>any</code> و<code>all</code></h3>
+<p>تابع <code>all()</code> تابعی است که یک ورودی از جنس عبارت‌های منطقی می‌گیرد و اگر تمام ورودی‌ها مقادیر <code>TRUE</code> داشته باشند مقدار <code>TRUE</code> و در غیر این صورت مقدار <code>FALSE</code> را در خروجی نمایش می‌دهد.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span> , <span class="dv">5</span> , <span class="dv">12</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span> , <span class="dv">5</span> , <span class="dv">12</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(y <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>تابع <code>any()</code> تابعی است که یک ورودی از جنس عبارت‌های منطقی می‌گیرد و اگر حداقل یکی از این ورودی‌ها مقدار <code>TRUE</code> داشته باشد مقدار <code>TRUE</code> و در غیر این صورت مقدار <code>FALSE</code> را در خروجی نمایش می‌دهد.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(x <span class="sc">&lt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(y <span class="sc">&lt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<hr>
+<p><strong>مثال 3:</strong> آزمایش پرتاب 4 تاس سالم را در نظر بگیرید. با چه احتمالی حداقل یک تاس بر 6 بخش‌پذیر است؟</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n,{</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">4</span> , <span class="at">replace =</span> T)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">any</span>(x <span class="sc">%%</span> <span class="dv">6</span> <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.51904</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="احتمال-شرطی" class="level2">
+<h2 class="anchored" data-anchor-id="احتمال-شرطی">احتمال شرطی</h2>
+<p><strong>مثال 1:</strong> دو تاس را پرتاب کنیم، احتمال آنکه تاس اول <span class="math inline">\(2\)</span> باشد به شرط آنکه مجموع دوتاس برابر <span class="math inline">\(7\)</span> باشد چقدر است؟</p>
+<p><strong>حل.</strong> فرض کنید <span class="math inline">\(A\)</span> پیشامد 2 بودن تاس اول و <span class="math inline">\(B\)</span> پیشامد مجموع 7 باشد. مقدار واقعی این احتمال به سادگی با استفاده از قاعده بیز به صورت زیر محاسبه می شود. <span class="math display">\[
+\mathbb{P}(A | B) = \dfrac{A \cap  B}{B} = \dfrac{\dfrac{1}{36}}{\dfrac{6}{36}} = \dfrac{1}{6} = 0.166667
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution 1</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>event <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n,{</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">2</span>,<span class="at">replace =</span> T)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>event_B  <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">colSums</span>(event) <span class="sc">==</span> <span class="dv">7</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>event_AB <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">colSums</span>(event) <span class="sc">==</span> <span class="dv">7</span> <span class="sc">&amp;</span> event[<span class="dv">1</span>,]<span class="sc">==</span><span class="dv">2</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>event_AB<span class="sc">/</span>event_B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1666365</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution 2 </span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>res2 <span class="ot">=</span> event[,<span class="fu">colSums</span>(event)<span class="sc">==</span><span class="dv">7</span>]</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(res2[<span class="dv">1</span>,]<span class="sc">==</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1666365</code></pre>
+</div>
+</div>
+<hr>
+<p><strong>مثال کلاسی:</strong> دو تاس را پرتاب می‌کنیم. احتمال آنکه مجموع دو تاس حداقل 10 باشد به شرطی که یکی از آن‌ها 6 باشد را بیابید.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>eventAB <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10000</span>, {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  dieRoll <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">2</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">sum</span>(dieRoll) <span class="sc">&gt;=</span> <span class="dv">10</span>) <span class="sc">&amp;&amp;</span> (<span class="dv">6</span> <span class="sc">%in%</span> dieRoll)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>probAB <span class="ot">&lt;-</span> <span class="fu">mean</span>(eventAB)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>eventB <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10000</span>, {</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  die_roll <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">2</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">6</span> <span class="sc">%in%</span> die_roll</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>probB <span class="ot">&lt;-</span> <span class="fu">mean</span>(eventB)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>probAB <span class="sc">/</span> probB</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4478447</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># real 5/11</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><strong>مثال 2:</strong> جعبه‌ای شامل 7 گوی قرمز، 4 گوی آبی و 3 گوی سبز در اختیار داریم. اگر سه گوی بدون جایگزاری بیرون بکشیم، به سوال‌ها زیر پاسخ دهید.</p>
+<ul>
+<li><p>احتمال آنکه هر سه گوی قرمز باشند.</p></li>
+<li><p>احتمال آنکه حداقل یک گوی سبز باشد.</p></li>
+</ul>
+<p><strong>حل.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"r"</span>,<span class="dv">7</span>),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rep</span>(<span class="st">"b"</span>,<span class="dv">4</span>),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rep</span>(<span class="st">"g"</span>,<span class="dv">3</span>))</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fl">1e5</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">replicate</span>(n ,{</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>sm <span class="ot">=</span> <span class="fu">sample</span>(s , <span class="dv">3</span> , <span class="at">replace =</span> F)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(sm <span class="sc">==</span> <span class="st">"r"</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.09589</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># b</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"r"</span>,<span class="dv">7</span>),</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rep</span>(<span class="st">"b"</span>,<span class="dv">4</span>),</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rep</span>(<span class="st">"g"</span>,<span class="dv">3</span>))</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fl">1e6</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">replicate</span>(n ,{</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  sm <span class="ot">=</span> <span class="fu">sample</span>(s , <span class="dv">3</span> , <span class="at">replace =</span> F)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">any</span>(sm <span class="sc">==</span> <span class="st">"g"</span>)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.546967</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="تمرینها" class="level2">
+<h2 class="anchored" data-anchor-id="تمرینها">تمرین‌ها</h2>
+<p><strong>تمرین 1:</strong> یک سکه نااریب را سه بار می‌اندازیم. فرض کنید <span class="math inline">\(A\)</span> پیشامد مشاهده شیر و خط با هم و <span class="math inline">\(B\)</span> پیشامد حداکثر یک شیر باشد.</p>
+<ul>
+<li><p>مقدار دقیق احتمال‌های <span class="math inline">\(\mathbb{P}(A), \mathbb{P}(B)\)</span> را بیابید.</p></li>
+<li><p>نشان دهید این دو پیشامد مستقل هستند و اگر سکه را دوبار بیاندازیم مستقل نیستند.</p></li>
+</ul>
+<p><strong>تمرین 2:</strong> از یک دسته ورق بازی، دو ورق یک به یک با جایگذاری بیرون می‌آوریم. احتمال قرمز بودن هر دو ورق را بیابید (مقدار دقیق و مقدار شبیه‌سازی)</p>
+</section>
+<section id="توزیعهای-احتمال" class="level2">
+<h2 class="anchored" data-anchor-id="توزیعهای-احتمال">توزیع‌های احتمال</h2>
+<p>محاسبه‌های مربوط به توزیع‌های احتمال پرکاربرد از جمله توزیع بتا، دوجمله‌ای، کوشی، کای‌دو، نمایی، <span class="math inline">\(F\)</span> ، گاما، هندسی، لگ‌نرمال، نرمال، پواسون، تی استیودنت، یکنواخت و غیره، در <code>R</code> امکان‌پذیر است. هر یک از این توزیع‌ها با یک کد اختصاصی شناخته می‌شوند و با افزودن حروف <code>d</code>، <code>‌p</code>، <code>‌‌q</code> یا <code>r</code> به آغاز کد مربوط به هر توزیع، تابعی به‌دست می‌آید که به ترتیب تابع چگالی احتمال، تابع توزیع، تابع چندک و تولید عددهای تصادفی برای آن توزیع را در اختیار می‌گذارد.</p>
+<ul>
+<li><p><strong>نکته 1:</strong> برای به‌کارگیری این تابع‌ها، علاوه بر شناسه‌های مورد نیاز باید پارامترهای هر توزیع نیز مشخص شوند. برای اطلاعات بیشتر راهنمای توابع را ببینید.</p></li>
+<li><p><strong>نکته 2:</strong> توزیع‌های جدیدی که شناسه آن‌ها در <code>R</code> وجود ندارد باید باید با توابع مناسب کدنویسی شوند.</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pdqr.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<p><strong>مثال 1:</strong> مقادیر خواسته شده‌ی زیر را محاسبه کنید.</p>
+<ul>
+<li><p>مقدار تابع توزیع نرمال با میانگین 2 و واریانس 4 در نقطه <span class="math inline">\(x=2\)</span></p></li>
+<li><p>مقدار تابع احتمال توزیع پواسون با پارامتر <span class="math inline">\(\lambda = 4\)</span> در نقطه <span class="math inline">\(x = 1\)</span></p></li>
+<li><p>صدک 95 توزیع <code>t</code> با 5 درجه آزادی</p></li>
+<li><p>تولید 20 عدد از توزیع هندسی با پارامتر 0.9</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part a</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">2</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part b</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dpois</span>(<span class="dv">1</span>,<span class="at">lambda =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.07326256</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part c</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.015048</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part d</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rgeom</span>(<span class="dv">20</span>, <span class="at">prob =</span> <span class="fl">0.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2</code></pre>
+</div>
+</div>
+<p><strong>تمرین کلاسی 1:</strong> به عنوان نمونه از میان توزیع‌های ذکر شده در جدول بالا مواردی را انتخاب و چهار تابع معرفی شده را برای آن بدست آورید.</p>
+<p><strong>مثال 2:</strong> فرض کنید <span class="math inline">\(X \sim \mathcal{N}(\mu = 2, \sigma^2 = 9)\)</span> باشد. موارد خواسته شده‌ی زیر را بدست آورید.</p>
+<p>1- <span class="math inline">\(\mathbb{P}(X \leq 2)\)</span></p>
+<p>2- <span class="math inline">\(\mathbb{P}(2 &lt; X &lt; 4)\)</span></p>
+<p>3- <span class="math inline">\(\mathbb{E}(X)\)</span></p>
+<p>4- <span class="math inline">\(\mathbb{E}(X^2)\)</span></p>
+<p>5- <span class="math inline">\(\mathbb{V}ar(X)\)</span></p>
+<p>6- <span class="math inline">\(M_X(t)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part a</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">2</span> ,<span class="dv">2</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="fl">1e6</span> , <span class="dv">2</span> , <span class="dv">3</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x <span class="sc">&lt;=</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.500199</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part b</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">4</span> ,<span class="dv">2</span>,<span class="dv">3</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">2</span> ,<span class="dv">2</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2475075</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="fl">1e6</span> , <span class="dv">2</span> , <span class="dv">3</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x<span class="sc">&gt;</span><span class="dv">2</span> <span class="sc">&amp;</span> x<span class="sc">&lt;</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.247354</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part c</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.004009</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part d</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 13.01991</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part e</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9.003864</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part f</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fl">6.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 665.1416</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">exp</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 630.8342</code></pre>
+</div>
+</div>
+<p><strong>مثال 3:</strong> فرض کنید <span class="math inline">\(X \sim \mathbb{P}o(\lambda = 3)\)</span> باشد، احتمال های زیر را محاسبه کنید. <span class="math display">\[
+\begin{aligned}
+1.~ &amp;\mathbb{P}(X = 2 )\\
+2.~ &amp;\mathbb{P}(X &gt; 2 )
+\end{aligned}
+\]</span> <strong>حل.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dpois</span>(<span class="dv">2</span> , <span class="at">lambda =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2240418</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rpois</span>(<span class="fl">1e6</span> , <span class="at">lambda =</span> <span class="dv">3</span>)</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x<span class="sc">==</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.223438</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">ppois</span>(<span class="dv">2</span> , <span class="at">lambda =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5768099</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span>(<span class="fu">sum</span>(<span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">2</span> , <span class="at">lambda =</span> <span class="dv">3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5768099</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rpois</span>(<span class="fl">1e6</span> , <span class="at">lambda =</span> <span class="dv">3</span>)</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x<span class="sc">&gt;</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.577181</code></pre>
+</div>
+</div>
+<p><strong>مثال 4:</strong> اگر <span class="math inline">\(X, Y \sim \mathbb{E}xp(\lambda = 2)\)</span> باشند، مقدار احتمال <span class="math inline">\(\mathbb{P}(X &lt; Y)\)</span> را محاسبه کنید.</p>
+<p><strong>حل.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fl">1e6</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rexp</span>(n , <span class="at">rate =</span> <span class="dv">2</span>)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">rexp</span>(n , <span class="at">rate =</span> <span class="dv">2</span>)</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x <span class="sc">&lt;</span> y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.500417</code></pre>
+</div>
+</div>
+</section>
+<section id="نامساوی-ها" class="level2">
+<h2 class="anchored" data-anchor-id="نامساوی-ها">نامساوی ها</h2>
+<p>در این بخش با استفاده از آنچه در این فصل فرا گرفته ایم، درستی چند نامساوی معروف آمار را بررسی می کنیم.</p>
+<section id="نامساوی-مارکوف" class="level3">
+<h3 class="anchored" data-anchor-id="نامساوی-مارکوف">نامساوی مارکوف</h3>
+<p>فرض کنید <span class="math inline">\(X\)</span> یک متغیر تصادفی و <span class="math inline">\(h(.)\)</span> تابعی غیر منفی باشد. اگر <span class="math inline">\(\mathbb{E}[h(X)]&lt;\infty\)</span>، آنگاه برای هر <span class="math inline">\(a &gt; 0\)</span> داریم: <span class="math display">\[
+\mathbb{P}(h(X)\geq a) \leq \dfrac{\mathbb{E}[h(X)]}{a}
+\]</span> <strong>مثال:</strong> با فرض <span class="math inline">\(h(x) = x^2\)</span>، اگر متغیر تحت بررسی دارای توزیع نرمال استاندارد باشد، درستی نامساوی مارکوف را بررسی کنید.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fl">1e6</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> X<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fl">0.9</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(h <span class="sc">&gt;=</span> a) <span class="sc">&lt;=</span> <span class="fu">mean</span>(h)<span class="sc">/</span>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="نامساوی-چبیشف" class="level3">
+<h3 class="anchored" data-anchor-id="نامساوی-چبیشف">نامساوی چبیشف</h3>
+<p>با انتخاب <span class="math inline">\(h(x) = |x|\)</span> در نامساوی مارکوف و با توجه به اینکه <span class="math inline">\(\mathbb{P}(|X|\geq a) = \mathbb{P} (X^2 \geq a^2)\)</span>، داریم: <span class="math display">\[
+\mathbb{P}(|X|\geq a) \leq \dfrac{\mathbb{E}[X^2]}{a^2}
+\]</span> <strong>مثال:</strong> برای مثال قبل، درستی نامساوی چبیشف را بررسی کنید.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fl">1e6</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> <span class="fu">abs</span>(X)</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fl">1.5</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(h <span class="sc">&gt;=</span> a) <span class="sc">&lt;=</span> <span class="fu">mean</span>(h<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(a<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>حالت خاصی از نامساوی چبیشف، به صورت زیر است <span class="math display">\[
+\mathbb{P}(|X-\mu|\geq k\sigma) \leq \dfrac{1}{k^2}, \quad k &gt; 0
+\]</span> <strong>مثال:</strong> اگر <span class="math inline">\(X \sim \mathcal{N}(2,16)\)</span> درستی نامساوی فوق را نشان دهید.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fl">1e6</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">rnorm</span>(n , mu , sigma)</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(X <span class="sc">-</span> mu) <span class="sc">&gt;=</span> k <span class="sc">*</span> sigma) <span class="sc">&lt;=</span> <span class="dv">1</span><span class="sc">/</span>(k<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p><span class="math display">\[\\[0.1in]\]</span></p>
+</section>
+<section id="تمرین" class="level3">
+<h3 class="anchored" data-anchor-id="تمرین">تمرین</h3>
+<p><span style="color: blue;"><strong>تمرین ۱:</strong></span> اگر <span class="math inline">\(Z_i \sim \mathbb{N}(0,1), i = 1,2,3\)</span> باشد، مقدار احتمال <span class="math inline">\(\mathbb{P}(\sqrt{Z_1^2 + Z_2^2 + Z_3^2} &gt; 1.5)\)</span> را محاسبه کنید.</p>
+<p><span style="color: blue;"><strong>تمرین ۲:</strong></span> اگر <span class="math inline">\(X \sim \mathbb{G}e(0.8)\)</span> باشد، مقدار احتمال های زیر را محاسبه کنید. <span class="math display">\[
+\begin{aligned}
+1.~ &amp;\mathbb{P}(X &gt; 3)\\
+2.~ &amp;\mathbb{P}(X &gt; 9~ \text{or}~ 2\leq X \leq 6)
+\end{aligned}
+\]</span></p>
+<p><span style="color: blue;"><strong>تمرین ۳:</strong></span>یک جفت تاس را <span class="math inline">\(10\)</span> بار پرتاب می کنیم. اگر تعداد دفعاتی که شماره تاس اول بیشتر از تاس دوم است را با <span class="math inline">\(X\)</span> نمایش دهیم، مقدار امید ریاضی و واریانس این متغیر را بدست آورید.</p>
+<p><span style="color: blue;"><strong>تمرین ۴:</strong></span> مصرف روزانه آب یک شهر (به میلیون لیتر) به طور تقریبی دارای توزیع گاما با پارامترهای <span class="math inline">\((2 , \dfrac{1}{3} )\)</span> است. اگر گنجایش منابع آب <span class="math inline">\(9\)</span> میلیون لیتر باشد، احتمال این که در یک روز شهر دچار کمبود آب شود چقدر است؟</p>
+<p><span style="color: blue;"><strong>تمرین ۵:</strong></span> فرض کنید <span class="math inline">\(20\%\)</span> اجناس تولید شده در یک کارخانه معیوب هستند. احتمال آنکه در یک نمونه <span class="math inline">\(8\)</span> تایی از این اجناس، دست کم <span class="math inline">\(6\)</span> عدد سالم باشد، چقدر است؟</p>
+<p><span style="color: blue;"><strong>تمرین ۶:</strong></span> نامساوی زیر به بهترین نامساوی شوارتز معروف است <span class="math display">\[
+Cov ^2(X, Y) \leq Var(X)~Var(Y)
+\]</span> با ذکر مثالی، درستی این نامساوی را نشان دهید. <span class="math display">\[\\[0.1in]\]</span></p>
 
-  // Load the Monaco Editor and create an instance
-  let editor;
-  require(['vs/editor/editor.main'], function () {
-    editor = monaco.editor.create(editorDiv, {
-      value: `1 + 1`,
-      language: 'r',
-      theme: 'vs-light',
-      automaticLayout: true,           // TODO: Could be problematic for slide decks
-      scrollBeyondLastLine: false,
-      minimap: {
-        enabled: false
-      },
-      fontSize: '17.5pt',               // Bootstrap is 1 rem
-      renderLineHighlight: "none",     // Disable current line highlighting
-      hideCursorInOverviewRuler: true  // Remove cursor indictor in right hand side scroll bar
-    });
 
-    // Dynamically modify the height of the editor window if new lines are added.
-    let ignoreEvent = false;
-    const updateHeight = () => {
-      const contentHeight = editor.getContentHeight();
-      // We're avoiding a width change
-      //editorDiv.style.width = `${width}px`;
-      editorDiv.style.height = `${contentHeight}px`;
-      try {
-        ignoreEvent = true;
-
-        // The key to resizing is this call
-        editor.layout();
-      } finally {
-        ignoreEvent = false;
-      }
-    };
-
-    // Helper function to check if selected text is empty
-    function isEmptyCodeText(selectedCodeText) {
-      return (selectedCodeText === null || selectedCodeText === undefined || selectedCodeText === "");
-    }
-
-    // Registry of keyboard shortcuts that should be re-added to each editor window
-    // when focus changes.
-    const addWebRKeyboardShortCutCommands = () => {
-      // Add a keydown event listener for Shift+Enter to run all code in cell
-      editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
-
-        // Retrieve all text inside the editor
-        executeCode(editor.getValue());
-      });
-
-      // Add a keydown event listener for CMD/Ctrl+Enter to run selected code
-      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-
-        // Get the selected text from the editor
-        const selectedText = editor.getModel().getValueInRange(editor.getSelection());
-        // Check if no code is selected
-        if (isEmptyCodeText(selectedText)) {
-          // Obtain the current cursor position
-          let currentPosition = editor.getPosition();
-          // Retrieve the current line content
-          let currentLine = editor.getModel().getLineContent(currentPosition.lineNumber);
-
-          // Propose a new position to move the cursor to
-          let newPosition = new monaco.Position(currentPosition.lineNumber + 1, 1);
-
-          // Check if the new position is beyond the last line of the editor
-          if (newPosition.lineNumber > editor.getModel().getLineCount()) {
-            // Add a new line at the end of the editor
-            editor.executeEdits("addNewLine", [{
-            range: new monaco.Range(newPosition.lineNumber, 1, newPosition.lineNumber, 1),
-            text: "\n", 
-            forceMoveMarkers: true,
-            }]);
-          }
-          
-          // Run the entire line of code.
-          executeCode(currentLine);
-
-          // Move cursor to new position
-          editor.setPosition(newPosition);
-        } else {
-          // Code to run when Ctrl+Enter is pressed with selected code
-          executeCode(selectedText);
-        }
-      });
-    }
-
-    // Register an on focus event handler for when a code cell is selected to update
-    // what keyboard shortcut commands should work.
-    // This is a workaround to fix a regression that happened with multiple
-    // editor windows since Monaco 0.32.0 
-    // https://github.com/microsoft/monaco-editor/issues/2947
-    editor.onDidFocusEditorText(addWebRKeyboardShortCutCommands);
-
-    // Register an on change event for when new code is added to the editor window
-    editor.onDidContentSizeChange(updateHeight);
-
-    // Manually re-update height to account for the content we inserted into the call
-    updateHeight();
-  });
-
-  // Function to execute the code (accepts code as an argument)
-  async function executeCode(codeToRun) {
-
-    // Disallowing execution of other code cells
-    document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
-      btn.disabled = true;
-    });
-
-    // Emphasize the active code cell
-    runButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin qwebr-icon-status-spinner"></i> <span>Run Code</span>';
-
-    // Create a canvas variable for graphics
-    let canvas = undefined;
-
-    // Create a pager variable for help/file contents
-    let pager = [];
-
-    // Process 
-    async function parseTypePager(msg) { 
-
-        // Split out the event data
-        const { path, title, deleteFile } = msg.data; 
-
-        // Process the pager data by reading the information from disk
-        const paged_data = await webR.FS.readFile(path).then((data) => {
-          // Obtain the file content
-          let content = new TextDecoder().decode(data);
-
-          // Remove excessive backspace characters until none remain
-          while(content.match(/.[\b]/)){
-            content = content.replace(/.[\b]/g, '');
-          }
-
-          // Returned cleaned data
-          return content;
-        });
-
-        // Unlink file if needed
-        if (deleteFile) { 
-          await webR.FS.unlink(path); 
-        } 
-
-        // Return extracted data with spaces
-        return paged_data;
-    } 
-
-    // Initialize webR
-    await webR.init();
-
-    // Setup a webR canvas by making a namespace call into the {webr} package
-    await webR.evalRVoid("webr::canvas(width=504, height=360)");
-
-    // Capture output data from evaluating the code
-    const result = await webRCodeShelter.captureR(codeToRun, {
-      withAutoprint: true,
-      captureStreams: true,
-      captureConditions: false//,
-      // env: webR.objs.emptyEnv, // maintain a global environment for webR v0.2.0
-    });
-
-    // Start attempting to parse the result data
-    try {
-
-      // Stop creating images
-      await webR.evalRVoid("dev.off()");
-
-      // Merge output streams of STDOUT and STDErr (messages and errors are combined.)
-      const out = result.output
-        .filter(evt => evt.type === "stdout" || evt.type === "stderr")
-        .map((evt, index) => {
-          const className = `qwebr-output-code-${evt.type}`;
-          return `<code id="${className}-editor-1-result-${index + 1}" class="${className}">${qwebrEscapeHTMLCharacters(evt.data)}</code>`;
-        })
-        .join("\n");
-
-
-      // Clean the state
-      const msgs = await webR.flush();
-
-      // Output each image event stored
-      msgs.forEach((msg) => {
-        // Determine if old canvas can be used or a new canvas is required.
-        if (msg.type === 'canvas'){
-          // Add image to the current canvas
-          if (msg.data.event === 'canvasImage') {
-            canvas.getContext('2d').drawImage(msg.data.image, 0, 0);
-          } else if (msg.data.event === 'canvasNewPage') {
-            // Generate a new canvas element
-            canvas = document.createElement("canvas");
-            canvas.setAttribute("width", 2 * 504);
-            canvas.setAttribute("height", 2 * 360);
-            canvas.style.width = "700px";
-            canvas.style.display = "block";
-            canvas.style.margin = "auto";
-          }
-        } 
-      });
-
-      // Use `map` to process the filtered "pager" events asynchronously
-      const pager = await Promise.all(
-        msgs.filter(msg => msg.type === 'pager').map(
-          async (msg) => {
-            return await parseTypePager(msg);
-          }
-        )
-      );
-
-      // Nullify the output area of content
-      outputCodeDiv.innerHTML = "";
-      outputGraphDiv.innerHTML = "";
-
-      // Design an output object for messages
-      const pre = document.createElement("pre");
-      if (/\S/.test(out)) {
-        // Display results as HTML elements to retain output styling
-        const div = document.createElement("div");
-        div.innerHTML = out;
-        pre.appendChild(div);
-      } else {
-        // If nothing is present, hide the element.
-        pre.style.visibility = "hidden";
-      }
-      outputCodeDiv.appendChild(pre);
-
-      // Place the graphics on the canvas
-      if (canvas) {
-        outputGraphDiv.appendChild(canvas);
-      }
-
-      // Display the pager data
-      if (pager) {
-        // Use the `pre` element to preserve whitespace.
-        pager.forEach((paged_data, index) => {
-          let pre_pager = document.createElement("pre");
-          pre_pager.innerText = paged_data;
-          pre_pager.classList.add("qwebr-output-code-pager");
-          pre_pager.setAttribute("id", "qwebr-output-code-pager-editor-1-result-" + (index + 1));
-          outputCodeDiv.appendChild(pre_pager);
-        });
-      }
-    } finally {
-      // Clean up the remaining code
-      webRCodeShelter.purge();
-    }
-
-    // Switch to allowing execution of code
-    document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
-      btn.disabled = false;
-    });
-
-    // Revert to the initial code cell state
-    runButton.innerHTML = '<i class="fa-solid fa-play qwebr-icon-run-code"></i> <span>Run Code</span>';
-  }
-
-  // Add a click event listener to the run button
-  runButton.onclick = function () {
-    executeCode(editor.getValue());
-  };
-</script>
-
-
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -931,18 +816,64 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
   const processXRef = (id, note) => {
-    if (id.startsWith('sec-')) {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
         }
+        typesetMath(container);
         return container.innerHTML
       } else {
+        typesetMath(note);
         return note.innerHTML;
       }
     } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
       return note.innerHTML;
     }
   }
@@ -962,7 +893,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         const note = window.document.getElementById(id);
         if (note !== null) {
           try {
-            const html = processXRef(id, note);
+            const html = processXRef(id, note.cloneNode(true));
             instance.setContent(html);
           } finally {
             instance.enable();
@@ -985,6 +916,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
       }
     }, function(instance) {
     });
@@ -1056,6 +1010,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1115,12 +1095,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
+<nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">مقدمه</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./intro.html" class="pagination-link" aria-label="<span class='chapter-number'>1</span>&nbsp; <span class='chapter-title'>مقدمه</span>">
+        <span class="nav-page-text"><span class="chapter-title">مقدمه</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

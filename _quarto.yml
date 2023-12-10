@@ -13,19 +13,21 @@ book:
     - references.qmd
   site-url: https://a-roshani.ir 
   search: true
-  downloads: [pdf, epub]
-  sharing: [twitter, facebook]
+  #downloads: [pdf, epub]
+  #sharing: [twitter, facebook]
 
 bibliography: references.bib
 
 format:
   html:
-    theme: cosmo
+    page-layout: full
+    theme: [cosmo, source.scss]
   pdf:
     documentclass: scrreprt
 
 filters:
-- webr
+  - webr
+number-sections: false
 mainfont: Vazirmatn
 language: FA_values.yml
 dir: rtl
