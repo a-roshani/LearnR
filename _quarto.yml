@@ -21,7 +21,9 @@ bibliography: references.bib
 format:
   html:
     page-layout: full
-    theme: [cosmo, source.scss]
+    theme: 
+      - cosmo
+      - source.scss
   pdf:
     documentclass: scrreprt
 
