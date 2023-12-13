@@ -27,8 +27,8 @@ format:
   #pdf:
   #  documentclass: scrreprt
 
-filters:
-  - webr
+#filters:
+#  - webr
 number-sections: false
 mainfont: Vazirmatn
 language: FA_values.yml
