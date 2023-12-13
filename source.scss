@@ -3,3 +3,11 @@
 p {
     text-align: justify;
 }
+
+div.sourceCode {
+    text-align: left;
+}
+
+code:not(.sourceCode) {
+    text-align: left;
+}
